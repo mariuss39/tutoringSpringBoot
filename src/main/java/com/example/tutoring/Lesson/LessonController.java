@@ -24,4 +24,14 @@ public class LessonController {
         return ResponseEntity.created(location).body(saved);
     }
 
+    @PutMapping("/lessons/{id}")
+    public LessonViewDto updateLesson(@PathVariable Long id, @RequestBody LessonFormDto lfd){
+        return lessonService.updateLesson(lfd,id);
+    }
+
+    @DeleteMapping("/lessons/{id}")
+    public ResponseEntity<Void> deleteLesson(@PathVariable Long id){
+        lessonService.deleteLesson(id);
+        return ResponseEntity.noContent().build();
+    }
 }

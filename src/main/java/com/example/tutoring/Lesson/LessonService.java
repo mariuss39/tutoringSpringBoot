@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+
 public class LessonService {
 
     private final LessonRepository lessonRepository;
@@ -26,5 +27,22 @@ public class LessonService {
         Lesson saved=lessonRepository.save(new Lesson(lessonFormDto.title(),lessonFormDto.position(),lessonFormDto.content(),subjectRepository.findById(subjectId).orElseThrow()));
         return LessonViewDto.fromLesson(saved);
     }
+
+    @Transactional
+    public LessonViewDto updateLesson(LessonFormDto lfd, Long id){
+       Lesson l= lessonRepository.findById(id).orElseThrow();
+       l.setContent(lfd.content());
+       l.setPosition(lfd.position());
+       l.setTitle(lfd.title());
+       //lipsesc din campuri
+        return LessonViewDto.fromLesson(l);
+    }
+
+    @Transactional
+    public void deleteLesson(Long id){
+        Lesson deleted=lessonRepository.findById(id).orElseThrow();
+        lessonRepository.delete(deleted);
+    }
+
 //title, position content subjectId
 }

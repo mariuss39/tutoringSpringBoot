@@ -17,12 +17,12 @@ public class SubjectService {
         this.teacherRepository=tp;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<SubjectViewDto> getAllSubjects(){
         return subjectRepository.findAll().stream().map(SubjectViewDto::fromSubject).toList();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public SubjectViewDto getSubjectById(Long id){
         return subjectRepository.findById(id).map(SubjectViewDto::fromSubject).orElseThrow();
     }
@@ -32,6 +32,15 @@ public class SubjectService {
         Teacher t=teacherRepository.findById(teacherId).orElseThrow();
         Subject saved=subjectRepository.save(new Subject(subjectFormDto.name(),subjectFormDto.description(),t));
         return SubjectViewDto.fromSubject(saved);
+    }
+
+    @Transactional
+    public SubjectViewDto updateSubject(SubjectFormDto sfd,Long id){
+        Subject sbj= subjectRepository.findById(id).orElseThrow();
+        sbj.setName(sfd.name());
+        sbj.setDescription(sfd.description());
+        //momentan nu am dto specializat deci nu am cum sa modific si teacher
+        return SubjectViewDto.fromSubject(sbj);
     }
 
 }

@@ -26,4 +26,13 @@ public class SubjectController {
         URI location= URI.create("/subjects/"+saved.id());
         return ResponseEntity.created(location).body(saved);
     }
+    @GetMapping("/{id}")
+    public SubjectViewDto getById(@PathVariable Long id){
+        return subjectService.getSubjectById(id);
+    }
+
+    @PutMapping("/{id}")
+    public SubjectViewDto updateSubject(@PathVariable Long id, @RequestBody SubjectFormDto sfd){
+        return subjectService.updateSubject(sfd,id);
+    }
 }

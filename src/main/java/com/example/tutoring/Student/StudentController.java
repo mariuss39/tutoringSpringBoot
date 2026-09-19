@@ -18,11 +18,22 @@ public class StudentController{
     public List<StudentViewDto> getAll(){
         return studentService.getAll();
     }
+
+    @GetMapping("/{id}")
+    public StudentViewDto getById(@PathVariable Long id){
+        return studentService.getById(id);
+    }
     @PostMapping
     public ResponseEntity<StudentViewDto> addStudent(@RequestBody StudentFormDto sfd){
         StudentViewDto created=studentService.addStudent(sfd);
         URI location=URI.create("/students/"+created.id());
         return ResponseEntity.created(location).body(created);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentViewDto> updateStudent(@RequestBody StudentFormDto dfd, @PathVariable Long id){
+        StudentViewDto updated= studentService.updateStudent(dfd,id);
+        return ResponseEntity.ok(updated);
     }
 }
 
