@@ -14,5 +14,10 @@ public class Student extends User {
         super(name,email,passwordHash);
     }
 
+    @Override
+
+    public String getRole(){
+        return "STUDENT";
+    }
 
 }

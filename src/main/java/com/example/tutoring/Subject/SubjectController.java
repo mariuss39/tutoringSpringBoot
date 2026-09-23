@@ -1,7 +1,9 @@
 package com.example.tutoring.Subject;
 
+import com.example.tutoring.security.CurrentUser;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -21,8 +23,8 @@ public class SubjectController {
     }
 
     @PostMapping
-    public ResponseEntity<SubjectViewDto> addSubject(@RequestBody SubjectFormDto sfd, @RequestParam Long teacherId){
-       SubjectViewDto saved=subjectService.addSubject(sfd,teacherId);
+    public ResponseEntity<SubjectViewDto> addSubject(@RequestBody SubjectFormDto sfd, @AuthenticationPrincipal CurrentUser currentUser){
+        SubjectViewDto saved=subjectService.addSubject(sfd, currentUser.id());
         URI location= URI.create("/subjects/"+saved.id());
         return ResponseEntity.created(location).body(saved);
     }

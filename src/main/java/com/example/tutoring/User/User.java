@@ -27,7 +27,7 @@ public abstract class User{
     }
 
     //getter setter
-
+    public abstract String getRole();
     public Long getId() {
         return id;
     }

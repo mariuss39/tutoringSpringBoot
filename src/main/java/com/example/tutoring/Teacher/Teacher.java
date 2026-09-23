@@ -27,4 +27,9 @@ public class Teacher extends User {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String getRole(){
+        return "TEACHER";
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.tutoring.Student;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,7 +9,11 @@ import java.util.List;
 @Service
 public class StudentService{
     private final StudentRepository studentRepository;
-    public StudentService(StudentRepository sp){this.studentRepository=sp;}
+    private final PasswordEncoder passwordEncoder;
+    public StudentService(StudentRepository sp,PasswordEncoder pe){
+        this.passwordEncoder=pe;
+        this.studentRepository=sp;
+    }
 
     @Transactional(readOnly = true)
     public List<StudentViewDto> getAll(){
@@ -16,7 +21,7 @@ public class StudentService{
     }
     @Transactional
     public StudentViewDto addStudent(StudentFormDto sfd){
-        Student s1=studentRepository.save(new Student(sfd.name(),sfd.email(),sfd.password()));
+        Student s1=studentRepository.save(new Student(sfd.name(),sfd.email(),passwordEncoder.encode(sfd.password())));
         return StudentViewDto.fromStudent(s1);
     }
     @Transactional (readOnly = true)
